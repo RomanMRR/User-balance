@@ -27,7 +27,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		balance := api.Group("/balance")
 		{
 			// balance.POST("/")
-			balance.GET("/:id", h.getBalanceById)
+			balance.GET("/:id", h.getWalletById)
 			balance.PUT("/:id", h.updateBalanceById)
 			// balance.DELETE("/:id", )
 		}

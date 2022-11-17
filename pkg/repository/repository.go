@@ -11,17 +11,19 @@ type Authorization interface {
 	GetUser(username, password string) (balance.User, error)
 }
 
-type Balance interface {
-
+type BalanceWallet interface {
+	// Update(userId int, wallet balance.Wallet)
+	GetWallet(userId int)(balance.Wallet, error)
 }
 
 type Repository struct {
 	Authorization
-	Balance
+	BalanceWallet
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		BalanceWallet: NewBalanceWalletPostgres(db),
 	}
 }
