@@ -1,5 +1,9 @@
-DROP TABLE transaction;
+DROP TABLE reserve_wallet;
+
+DROP TABLE wallet;
 
 DROP TABLE users;
 
-DROP TABLE wallet;
+
+
+

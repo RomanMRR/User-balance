@@ -23,6 +23,8 @@ func (r *ReserveWalletPostgres) AddAmount(input balance.UpdateReserveWallet) err
 		return err
 	}
 
+
+
 	addQuery := fmt.Sprintf("UPDATE %s rw SET amount=amount + $1 FROM %s us WHERE rw.user_id = us.id AND us.id=$2",
 		reserveWalletTable, userTable)
 

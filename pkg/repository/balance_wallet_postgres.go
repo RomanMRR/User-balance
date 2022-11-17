@@ -23,23 +23,46 @@ func (r *BalanceWalletPostgres) Update(input balance.UpadateWallet) error {
 	args := make([]interface{}, 0)
 	argId := 1
 
-	if input.Amount != nil {
-		setValues = append(setValues, fmt.Sprintf("amount=amount + $%d", argId))
-		args = append(args, *input.Amount)
-		argId++
+	var count int
+	queryCount := fmt.Sprintf("SELECT count(id) FROM %s WHERE user_id = $1", walletTable)
+	row := r.db.QueryRow(queryCount, input.User_id)
+	if err := row.Scan(&count); err != nil {
+		return err
 	}
 
-	setQuery := strings.Join(setValues, ", ")
-
-	query := fmt.Sprintf("UPDATE %s wl SET %s FROM %s us WHERE wl.user_id = us.id AND us.id=$%d",
-		walletTable, setQuery, userTable, argId)	
-	args = append(args, input.User_id)
+	if count != 0 {
+		if input.Amount != nil {
+			setValues = append(setValues, fmt.Sprintf("amount=amount + $%v", argId))
+			args = append(args, *input.Amount)
+			argId++
+		}
 	
-	logrus.Debugf("updateQuery: %s", query)
-	logrus.Debugf("args: %s", args)
+		setQuery := strings.Join(setValues, ", ")
+	
+		query := fmt.Sprintf("UPDATE %s wl SET %s FROM %s us WHERE wl.user_id = us.id AND us.id=$%d",
+			walletTable, setQuery, userTable, argId)	
+		args = append(args, input.User_id)
+		
+		logrus.Debugf("updateQuery: %s", query)
+		logrus.Debugf("args: %s", args)
+	
+		_, err := r.db.Exec(query, args...)
+		return err
+	} else {
+		tx, err := r.db.Begin()
+		if err != nil {
+			return err
+		}
 
-	_, err := r.db.Exec(query, args...)
-	return err
+		createWalletQuery := fmt.Sprintf("INSERT INTO %s (user_id, amount) VALUES($1, $2)", walletTable)
+		_, err = tx.Exec(createWalletQuery, input.User_id, input.Amount)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+
+		return tx.Commit()
+		}	
 }
 
 func (r *BalanceWalletPostgres) GetWallet(userId int) (balance.Wallet, error) {
