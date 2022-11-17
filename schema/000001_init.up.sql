@@ -21,3 +21,10 @@ CREATE TABLE transaction
     sum float not null,
     date timestamp not null
 );
+
+CREATE TABLE reserve_wallet
+(
+    id serial not null unique,
+    amount float DEFAULT 0,
+    user_id int references users (id) on delete cascade not null 
+)

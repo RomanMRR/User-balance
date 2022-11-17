@@ -36,3 +36,19 @@ func (h *Handler) getWalletById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, wallet)
 }
+
+func (h *Handler) updateWallet(c *gin.Context) {
+	var input balance.UpadateWallet
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.services.Update(input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+
+	c.JSON(http.StatusOK, statusResponse{"ok"})
+}

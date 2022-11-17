@@ -28,8 +28,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			// balance.POST("/")
 			balance.GET("/:id", h.getWalletById)
-			balance.PUT("/:id", h.updateBalanceById)
+			balance.PUT("/", h.updateWallet)
+			
 			// balance.DELETE("/:id", )
+		}
+		transaction := balance.Group("/reserve")
+		{
+			transaction.PUT("/", h.addReserveWallet)
+		}
+		transactionSuccessful := balance.Group("/withdraw")
+		{
+			transactionSuccessful.PUT("/", h.withrawReserveWallet)
 		}
 	}
 

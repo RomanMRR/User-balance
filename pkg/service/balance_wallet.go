@@ -13,9 +13,12 @@ func NewBalanceWalletService(repo repository.BalanceWallet) *BalanceWalletServic
 	return &BalanceWalletService{repo: repo}
 }
 
-// func (s *BalanceWalletService) Update(userId int, wallet balance.Wallet) (int, error) {
-// 	return s.repo.Update(userId, wallet)
-// }
+func (s *BalanceWalletService) Update(input balance.UpadateWallet) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(input)
+}
 
 func (s *BalanceWalletService) GetWallet(userId int)(balance.Wallet, error) {
 	return s.repo.GetWallet(userId)

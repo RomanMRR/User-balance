@@ -36,6 +36,13 @@ func (r *AuthPostgres) CreateUser(user balance.User) (int, error) {
 		return 0, err
 	}
 
+	createReserveWalletQuery := fmt.Sprintf("INSERT INTO %s (user_id) VALUES($1)", reserveWalletTable)
+	_, err = tx.Exec(createReserveWalletQuery, id)
+	if err != nil {
+		tx.Rollback()
+		return 0, err
+	}
+
 	return id, tx.Commit()
 }
 
