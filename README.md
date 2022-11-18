@@ -1,4 +1,9 @@
 # User-balance
+## Запуск
+- `git clone https://github.com/RomanMRR/User-balance.git`
+- `cd User-balance/`
+- `docker-compose up --build`
+
 ## Создание нового пользователя
 
 ### Запрос
