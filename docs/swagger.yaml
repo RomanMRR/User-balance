@@ -1,0 +1,253 @@
+basePath: /
+definitions:
+  balance.UpdateReserveWallet:
+    properties:
+      amount:
+        type: number
+      order_id:
+        type: integer
+      service_id:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - order_id
+    - service_id
+    type: object
+  balance.UpdateWallet:
+    properties:
+      amount:
+        type: number
+      user_id:
+        type: integer
+    type: object
+  balance.User:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - name
+    - password
+    - username
+    type: object
+  balance.Wallet:
+    properties:
+      balance:
+        type: number
+      user_id:
+        type: integer
+    type: object
+  handler.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  handler.statusResponse:
+    properties:
+      status:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: API Server for User-Balance Application
+  title: User-balance App API
+  version: "1.0"
+paths:
+  /api/balance:
+    put:
+      consumes:
+      - application/json
+      description: Updating funds on the user's account
+      operationId: update-wallet
+      parameters:
+      - description: How many funds to transfer
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/balance.UpdateWallet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Update wallet
+      tags:
+      - wallet
+  /api/balance/{id}:
+    get:
+      description: get the user's wallet
+      operationId: get-wallet
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/balance.Wallet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Get wallet
+      tags:
+      - wallet
+  /api/balance/reserve:
+    put:
+      consumes:
+      - application/json
+      description: Debiting funds from a reserve wallet
+      operationId: debiting-funds
+      parameters:
+      - description: How many funds to withdraw
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/balance.UpdateReserveWallet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Debiting funds
+      tags:
+      - reserve wallet
+  /api/balance/withdraw:
+    put:
+      consumes:
+      - application/json
+      description: Reserving money from the main account
+      operationId: reserve-funds
+      parameters:
+      - description: How many funds to reserve
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/balance.UpdateReserveWallet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Reserve funds
+      tags:
+      - reserve wallet
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: create account
+      operationId: create-account
+      parameters:
+      - description: account info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/balance.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: SignUp
+      tags:
+      - auth
+swagger: "2.0"

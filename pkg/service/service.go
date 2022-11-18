@@ -10,7 +10,7 @@ type Authorization interface {
 }
 
 type BalanceWallet interface {
-	Update(input balance.UpadateWallet) error
+	Update(input balance.UpdateWallet) error
 	GetWallet(userId int)(balance.Wallet, error)
 }
 

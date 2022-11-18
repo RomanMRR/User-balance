@@ -15,6 +15,14 @@ import (
 	"github.com/spf13/viper"
 )
 
+// @title User-balance App API
+// @version 1.0
+// @description API Server for User-Balance Application
+
+// @host localhost:8000
+// @BasePath /
+
+
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 	if err := initConfig(); err != nil {

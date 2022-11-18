@@ -18,7 +18,7 @@ func NewBalanceWalletPostgres(db *sqlx.DB) *BalanceWalletPostgres {
 	return &BalanceWalletPostgres{db:db}
 }
 
-func (r *BalanceWalletPostgres) Update(input balance.UpadateWallet) error {
+func (r *BalanceWalletPostgres) Update(input balance.UpdateWallet) error {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
 	argId := 1

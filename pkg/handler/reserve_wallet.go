@@ -15,6 +15,19 @@ type ReserveWalletInput struct {
 	Amount float64 `json:"amount" binding:"required"`
 }
 
+
+// @Summary Reserve funds
+// @Tags reserve wallet
+// @Description Reserving money from the main account
+// @ID reserve-funds
+// @Accept  json
+// @Produce  json
+// @Param input body balance.UpdateReserveWallet true "How many funds to reserve"
+// @Success 200 {object} statusResponse
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/balance/withdraw [put]
 func (h *Handler) addReserveWallet(c *gin.Context) {
 	var input balance.UpdateReserveWallet
 	if err := c.BindJSON(&input); err != nil {
@@ -44,7 +57,19 @@ func (h *Handler) addReserveWallet(c *gin.Context) {
 	c.JSON(http.StatusOK, statusResponse{"ok"})
 }
 
-func (h *Handler) withrawReserveWallet(c *gin.Context) {
+// @Summary Debiting funds
+// @Tags reserve wallet
+// @Description Debiting funds from a reserve wallet
+// @ID debiting-funds
+// @Accept  json
+// @Produce  json
+// @Param input body balance.UpdateReserveWallet true "How many funds to withdraw"
+// @Success 200 {object} statusResponse
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/balance/reserve [put]
+func (h *Handler) withdrawReserveWallet(c *gin.Context) {
 	var input balance.UpdateReserveWallet
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())

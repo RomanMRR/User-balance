@@ -3,6 +3,10 @@ package handler
 import (
 	"github.com/RomanMRR/user-balance/pkg/service"
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/gin-swagger" // gin-swagger middleware
+	"github.com/swaggo/files" // swagger embed files
+
+	_ "github.com/RomanMRR/user-balance/docs"
 )
 
 type Handler struct {
@@ -16,6 +20,8 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)
@@ -25,11 +31,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		balance := api.Group("/balance")
 		{
-			// balance.POST("/")
 			balance.GET("/", h.getWalletById)
 			balance.PUT("/", h.updateWallet)
 			
-			// balance.DELETE("/:id", )
 		}
 		transaction := balance.Group("/reserve")
 		{
@@ -37,7 +41,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		}
 		transactionSuccessful := balance.Group("/withdraw")
 		{
-			transactionSuccessful.PUT("/", h.withrawReserveWallet)
+			transactionSuccessful.PUT("/", h.withdrawReserveWallet)
 		}
 	}
 

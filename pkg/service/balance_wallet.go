@@ -13,7 +13,7 @@ func NewBalanceWalletService(repo repository.BalanceWallet) *BalanceWalletServic
 	return &BalanceWalletService{repo: repo}
 }
 
-func (s *BalanceWalletService) Update(input balance.UpadateWallet) error {
+func (s *BalanceWalletService) Update(input balance.UpdateWallet) error {
 	if err := input.Validate(); err != nil {
 		return err
 	}
