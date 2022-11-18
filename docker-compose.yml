@@ -1,34 +1,30 @@
 version: '3.8'
 
 services:
-  todo-app:
-    build: ./
-    ports:
-      - 8000:8000
-    depends_on:
-      - db
-    environment:
-      - DB_PASSWORD=qwerty
-
-  db:
+  postgres:
+    container_name: postgres
     restart: always
-    image: postgres:latest
-    networks:
-            new:
-                aliases:
-                    - database
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
     environment:
       - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    image: postgres:latest
+    volumes:
+      - ./schema/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  user-balance:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    command: ./user-balance
     ports:
-      - 5432:5432
-  migrate:
-        image: migrate/migrate
-        networks:
-            - new
-        volumes:
-            - .:/migrations
-        command: ["-path", "./schema", "-database",  "postgres://postgres:qwerty@localhost:5432/postgres?sslmode=disable", "up", "3"]
-        links: 
-            - db
-networks:
-      new:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
