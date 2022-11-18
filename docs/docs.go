@@ -77,7 +77,7 @@ const docTemplate = `{
         },
         "/api/balance/reserve": {
             "put": {
-                "description": "Debiting funds from a reserve wallet",
+                "description": "Reserving money from the main account",
                 "consumes": [
                     "application/json"
                 ],
@@ -87,11 +87,11 @@ const docTemplate = `{
                 "tags": [
                     "reserve wallet"
                 ],
-                "summary": "Debiting funds",
-                "operationId": "debiting-funds",
+                "summary": "Reserve funds",
+                "operationId": "reserve-funds",
                 "parameters": [
                     {
-                        "description": "How many funds to withdraw",
+                        "description": "How many funds to reserve",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -136,7 +136,7 @@ const docTemplate = `{
         },
         "/api/balance/withdraw": {
             "put": {
-                "description": "Reserving money from the main account",
+                "description": "Debiting funds from a reserve wallet",
                 "consumes": [
                     "application/json"
                 ],
@@ -146,11 +146,11 @@ const docTemplate = `{
                 "tags": [
                     "reserve wallet"
                 ],
-                "summary": "Reserve funds",
-                "operationId": "reserve-funds",
+                "summary": "Debiting funds",
+                "operationId": "debiting-funds",
                 "parameters": [
                     {
-                        "description": "How many funds to reserve",
+                        "description": "How many funds to withdraw",
                         "name": "input",
                         "in": "body",
                         "required": true,

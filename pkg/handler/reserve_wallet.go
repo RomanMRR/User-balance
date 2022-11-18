@@ -27,7 +27,7 @@ type ReserveWalletInput struct {
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Failure default {object} errorResponse
-// @Router /api/balance/withdraw [put]
+// @Router /api/balance/reserve [put]
 func (h *Handler) addReserveWallet(c *gin.Context) {
 	var input balance.UpdateReserveWallet
 	if err := c.BindJSON(&input); err != nil {
@@ -68,7 +68,7 @@ func (h *Handler) addReserveWallet(c *gin.Context) {
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Failure default {object} errorResponse
-// @Router /api/balance/reserve [put]
+// @Router /api/balance/withdraw [put]
 func (h *Handler) withdrawReserveWallet(c *gin.Context) {
 	var input balance.UpdateReserveWallet
 	if err := c.BindJSON(&input); err != nil {
