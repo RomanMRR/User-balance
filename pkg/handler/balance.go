@@ -26,21 +26,6 @@ type UserInput struct {
 // @Failure default {object} errorResponse
 // @Router /api/balance/{id} [get]
 func (h *Handler) getWalletById(c *gin.Context) {
-	// var input UserInput
-
-	// if err := c.BindJSON(&input); err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-	
-
-	// wallet, err := h.services.BalanceWallet.GetWallet(input.UserId)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
-
-	// c.JSON(http.StatusOK, wallet)
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid id param")

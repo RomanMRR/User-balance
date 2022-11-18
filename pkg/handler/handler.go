@@ -31,7 +31,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		balance := api.Group("/balance")
 		{
-			balance.GET("/", h.getWalletById)
+			balance.GET("/:id", h.getWalletById)
 			balance.PUT("/", h.updateWallet)
 			
 		}
