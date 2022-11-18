@@ -1,5 +1,11 @@
 # User-balance
 ## Запуск
+Документация доступна по ссылке:
+```
+http://localhost:8000/swagger/index.html
+```
+
+## Запуск
 Скопируйте проект
 ```
 git clone https://github.com/RomanMRR/User-balance.git
