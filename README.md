@@ -2,7 +2,7 @@
 ## Запуск
 Скопируйте проект
 ```
-git clone https://github.com/RomanMRR/User-balance.git`
+git clone https://github.com/RomanMRR/User-balance.git
 ```
 Перейдите в папку проекта
 ```
