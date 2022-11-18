@@ -19,7 +19,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)
-		auth.POST("/sign-in", h.signIn)
 	}
 
 	api := router.Group("/api")
@@ -27,7 +26,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		balance := api.Group("/balance")
 		{
 			// balance.POST("/")
-			balance.GET("/:id", h.getWalletById)
+			balance.GET("/", h.getWalletById)
 			balance.PUT("/", h.updateWallet)
 			
 			// balance.DELETE("/:id", )
