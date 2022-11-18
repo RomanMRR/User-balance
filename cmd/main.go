@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/RomanMRR/user-balance"
 	"github.com/RomanMRR/user-balance/pkg/handler"
@@ -41,9 +44,28 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	srv := new(balance.Server)
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		logrus.Fatal("Error occured while running http server: %s", err.Error())
+	go func () {
+		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+			logrus.Fatal("Error occured while running http server: %s", err.Error())
 	}
+	}()
+	logrus.Print("User-balance started")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<- quit
+
+	logrus.Print("User-balance Shutting Down")
+
+	if err := srv.ShutDown(context.Background()); err != nil {
+		logrus.Errorf("error occured on server shutting down: %s", err.Error())
+	}
+
+	if err := db.Close(); err != nil {
+		logrus.Errorf("error occured on db connection close: %s", err.Error())
+	}
+
+
 }
 
 

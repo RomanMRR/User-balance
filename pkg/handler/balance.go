@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	balance "github.com/RomanMRR/user-balance"
@@ -26,22 +25,9 @@ type UserInput struct {
 }
 
 func (h *Handler) getWalletById(c *gin.Context) {
-	// id, err := strconv.Atoi(c.Param("id"))
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-	// 	return
-	// }
-
-	// wallet, err := h.services.BalanceWallet.GetWallet(id)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
 	var input UserInput
-	fmt.Println(input)
 
 	if err := c.BindJSON(&input); err != nil {
-		fmt.Println(input)
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
