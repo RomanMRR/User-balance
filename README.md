@@ -1,8 +1,17 @@
 # User-balance
 ## Запуск
-- `git clone https://github.com/RomanMRR/User-balance.git`
-- `cd User-balance/`
-- `docker-compose up --build`
+Скопируйте проект
+```
+git clone https://github.com/RomanMRR/User-balance.git`
+```
+Перейдите в папку проекта
+```
+cd User-balance/
+```
+Запустите проект
+```
+docker-compose up --build
+```
 
 ## Создание нового пользователя
 
